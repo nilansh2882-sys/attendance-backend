@@ -5,6 +5,9 @@ from datetime import datetime
 import os
 import collections
 
+# Ensure current directory is in Python path for Gunicorn root overrides
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 # Import custom modules
 from backend.database import get_db_connection, init_db, DB_FILE, hash_password, generate_id
 from backend.ml_model import predict_student_outcome
