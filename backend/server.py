@@ -6,8 +6,8 @@ import os
 import collections
 
 # Import custom modules
-from database import get_db_connection, init_db, DB_FILE, hash_password, generate_id
-from ml_model import predict_student_outcome
+from backend.database import get_db_connection, init_db, DB_FILE, hash_password, generate_id
+from backend.ml_model import predict_student_outcome
 
 app = Flask(__name__)
 # Enable CORS for all routes so frontend can call the API during development
