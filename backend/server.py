@@ -28,7 +28,13 @@ try:
     ml_model.load_model()
 except Exception as e:
     print(f"Warning: Failed to load/train ML model on startup: {e}")
-
+@app.route("/")
+def home():
+    return {
+        "status": "Backend Running",
+        "project": "Attendance Analytics Dashboard",
+        "version": "1.0"
+    }
 # ==========================================
 # AUTH ENDPOINTS
 # ==========================================
