@@ -19,6 +19,13 @@ frontend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if not os.path.exists(DB_FILE):
     init_db()
 
+# Ensure ML model is prepared (Gunicorn processes will trigger this)
+try:
+    import ml_model
+    ml_model.load_model()
+except Exception as e:
+    print(f"Warning: Failed to load/train ML model on startup: {e}")
+
 # ==========================================
 # AUTH ENDPOINTS
 # ==========================================
@@ -458,13 +465,7 @@ def serve_static(path):
     return send_from_directory(frontend_dir, 'index.html')
 
 if __name__ == '__main__':
-    # Initialize DB (and seed if empty) and train model if it doesn't exist
     init_db()
-    try:
-        import ml_model
-        ml_model.load_model()
-    except Exception as e:
-        print(f"Warning: Failed to load/train ML model on startup: {e}")
-        
-    print("Starting AttendIQ API server on http://0.0.0.0:5000")
-    app.run(host='0.0.0.0', debug=True, port=5000)
+    port = int(os.environ.get('PORT', 5000))
+    print(f"Starting AttendIQ API server on port {port}")
+    app.run(host='0.0.0.0', debug=False, port=port)
